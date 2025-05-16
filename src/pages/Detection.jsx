@@ -26,7 +26,7 @@ export default function Detection() {
 
     try {
       // Gửi yêu cầu POST tới server để tải lên và xử lý ảnh
-      const response = await fetch("http://localhost:5000/detect", {
+      const response = await fetch("http://localhost:5001/detect", {
         method: "POST",
         body: formData,
       });
@@ -35,7 +35,7 @@ export default function Detection() {
 
       if (response.ok) {
         // Nếu phản hồi thành công, cập nhật ảnh đầu ra và các kết quả phát hiện
-        setOutputImage("http://localhost:5000" + data.image_url);
+        setOutputImage("http://localhost:5001" + data.image_url);
         setDetections(data.detections);
         setMissingPPE(data.missing_ppe);
       } else {

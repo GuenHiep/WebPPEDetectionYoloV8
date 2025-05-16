@@ -1,6 +1,7 @@
 // import './App.css'
 import Navbar from './Navbar'
 import Detection from './pages/Detection'
+import CameraPage from './pages/CameraPage'; // đúng path
 
 
 function App() {
@@ -11,6 +12,9 @@ function App() {
       break
     case '/detection':
       component = <Detection />
+      break
+    case '/camera':
+      component = <CameraPage />
       break
     default:
       component = <h1>404 Not Found</h1>
