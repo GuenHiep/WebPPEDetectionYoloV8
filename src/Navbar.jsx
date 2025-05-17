@@ -2,7 +2,7 @@ import './styles.css';
 
 export default function Navbar() {
     return (
-        <nav className="navbar">
+        <nav className="navbar p-2">
             <h1><a href="/">PPE Detection!</a></h1>
             <ul>
                 <li>
