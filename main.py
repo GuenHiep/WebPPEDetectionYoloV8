@@ -4,7 +4,19 @@ import cv2
 import torch
 import numpy as np
 from ultralytics import YOLO
-import os
+import requests
+from datetime import datetime
+
+
+# Thay bằng token thật của bot @Guenppe_bot
+TELEGRAM_TOKEN = "8126217215:AAHiTqbCayJU9cAu1iIfAmMKZzOB8zo2vrw"
+
+# Danh sách nhiều người cần nhận cảnh báo
+CHAT_IDS = [
+    "1800424958",  # Người 1
+    "6069901175",  # Người 2
+    # thêm nữa nếu cần
+]
 
 app = Flask(__name__)
 CORS(app)
@@ -29,6 +41,20 @@ SELECTED_CLASSES = {
 
 REQUIRED_PPE = {"Mu bao ho", "Giay", "Do bao ho", "Ao bao ho", "Gang tay"}
 
+# Gửi ảnh Telegram đến nhiều người
+def send_telegram_photo(image_path, caption=""):
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendPhoto"
+    for chat_id in CHAT_IDS:
+        try:
+            with open(image_path, "rb") as image_file:
+                files = {"photo": image_file}
+                data = {"chat_id": chat_id, "caption": caption}
+                response = requests.post(url, files=files, data=data)
+                if response.status_code != 200:
+                    print(f"❌ Gửi ảnh thất bại đến {chat_id}: {response.text}")
+        except Exception as e:
+            print(f"❌ Lỗi khi gửi ảnh đến {chat_id}:", e)
+
 @app.route('/detect', methods=['POST'])
 def detect_ppe():
     if 'image' not in request.files:
@@ -43,7 +69,7 @@ def detect_ppe():
     detected_classes = set()
     detections = []
 
-    # Vẽ bounding box lên hình ảnh
+    # Vẽ bounding box
     for box in results.boxes.data:
         x1, y1, x2, y2, score, class_id = map(float, box)
         class_id = int(class_id)
@@ -56,14 +82,23 @@ def detect_ppe():
                 "bbox": [int(x1), int(y1), int(x2), int(y2)]
             })
             cv2.rectangle(image_np, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
-            cv2.putText(image_np, class_name, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+            cv2.putText(image_np, class_name, (int(x1), int(y1) - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
-    # Kiểm tra thiếu PPE
-    missing_ppe = REQUIRED_PPE - detected_classes
-
-    # Lưu hình ảnh kết quả
+    # Lưu ảnh kết quả
     output_path = "output.jpg"
     cv2.imwrite(output_path, image_np)
+
+    # Kiểm tra thiếu PPE và gửi Telegram nếu có
+    missing_ppe = REQUIRED_PPE - detected_classes
+    if missing_ppe:
+        timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        message = (
+            f"🚨 Thiếu đồ bảo hộ: {', '.join(missing_ppe)}\n"
+            f"🕒 Thời gian: {timestamp}"
+        )
+        send_telegram_photo(output_path, caption=message)
+
 
     return jsonify({
         "detections": detections,
