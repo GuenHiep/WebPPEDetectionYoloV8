@@ -23,7 +23,7 @@ export default function Detection() {
     formData.append("image", selectedFile);
 
     try {
-      const response = await fetch("http://localhost:5001/detect", {
+      const response = await fetch("http://localhost:5001/", {
         method: "POST",
         body: formData,
       });
@@ -72,7 +72,7 @@ export default function Detection() {
             <div className="col-md-7">
               <div className="row">
                 <div className="col-md-6">
-                  <h4>🔍 Detections:</h4>
+                  <h4>Detections:</h4>
                   <ul>
                     {detections.map((item, index) => (
                       <li key={index}>
@@ -85,7 +85,7 @@ export default function Detection() {
                 <div className="col-md-6">
                   {missingPPE.length > 0 ? (
                     <div>
-                      <h4 className="text-danger">⚠️ Thiếu các đồ bảo hộ:</h4>
+                      <h4 className="text-danger">Thiếu các đồ bảo hộ:</h4>
                       <ul>
                         {missingPPE.map((item, index) => (
                           <li key={index}>{item}</li>
@@ -93,7 +93,7 @@ export default function Detection() {
                       </ul>
                     </div>
                   ) : (
-                    <p className="text-success mt-4">✔️ Đã đầy đủ thiết bị bảo hộ</p>
+                    <p className="text-success mt-4"> Đã đầy đủ thiết bị bảo hộ</p>
                   )}
                 </div>
               </div>

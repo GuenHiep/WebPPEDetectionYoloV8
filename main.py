@@ -51,11 +51,11 @@ def send_telegram_photo(image_path, caption=""):
                 data = {"chat_id": chat_id, "caption": caption}
                 response = requests.post(url, files=files, data=data)
                 if response.status_code != 200:
-                    print(f"❌ Gửi ảnh thất bại đến {chat_id}: {response.text}")
+                    print(f"Gửi ảnh thất bại đến {chat_id}: {response.text}")
         except Exception as e:
-            print(f"❌ Lỗi khi gửi ảnh đến {chat_id}:", e)
+            print(f"Lỗi khi gửi ảnh đến {chat_id}:", e)
 
-@app.route('/detect', methods=['POST'])
+@app.route('/', methods=['POST'])
 def detect_ppe():
     if 'image' not in request.files:
         return jsonify({'error': 'No file uploaded'}), 400
@@ -94,8 +94,8 @@ def detect_ppe():
     if missing_ppe:
         timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         message = (
-            f"🚨 Thiếu đồ bảo hộ: {', '.join(missing_ppe)}\n"
-            f"🕒 Thời gian: {timestamp}"
+            f"Thiếu đồ bảo hộ: {', '.join(missing_ppe)}\n"
+            f"Thời gian: {timestamp}"
         )
         send_telegram_photo(output_path, caption=message)
 

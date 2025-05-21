@@ -8,9 +8,6 @@ function App() {
   let component
   switch (window.location.pathname) {
     case '/':
-      component = <h1>Home</h1>
-      break
-    case '/detection':
       component = <Detection />
       break
     case '/camera':

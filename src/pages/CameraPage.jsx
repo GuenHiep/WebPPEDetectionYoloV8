@@ -62,7 +62,7 @@ function CameraPage() {
       formData.append('image', blob);
 
       try {
-        const response = await fetch('http://localhost:5001/detect', {
+        const response = await fetch('http://localhost:5001/', {
           method: 'POST',
           body: formData,
         });
@@ -107,7 +107,7 @@ function CameraPage() {
 
       {/* Cột phải: Kết quả nhận diện */}
       <div>
-        <h3>🚨 Thiếu các đồ bảo hộ:</h3>
+        <h3>Thiếu các đồ bảo hộ:</h3>
         {missingPPE.length > 0 ? (
           <ul>
             {missingPPE.map((item, index) => (
@@ -115,10 +115,10 @@ function CameraPage() {
             ))}
           </ul>
         ) : (
-          <p style={{ color: 'green' }}>✔️ Đã đầy đủ thiết bị bảo hộ</p>
+          <p style={{ color: 'green' }}>Đã đầy đủ thiết bị bảo hộ</p>
         )}
 
-        <h4 style={{ marginTop: '20px' }}>🔍 Chi tiết nhận diện:</h4>
+        <h4 style={{ marginTop: '20px' }}>Chi tiết nhận diện:</h4>
         <ul>
           {detections.map((item, index) => (
             <li key={index}>

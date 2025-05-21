@@ -6,10 +6,7 @@ export default function Navbar() {
             <h1><a href="/">PPE Detection!</a></h1>
             <ul>
                 <li>
-                    <a href="/">Home</a>
-                </li>
-                <li>
-                    <a href="/detection">Detection</a>
+                    <a href="/">Detection</a>
                 </li>
                 <li>
                     <a href="/camera">Camera</a>
