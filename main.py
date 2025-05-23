@@ -26,20 +26,24 @@ model = YOLO("best.pt")
 
 # Danh sách các class
 SELECTED_CLASSES = {
-    0: "Nguoi",
-    1: "Tai",
-    2: "Bit tai",
-    4: "Bao ve mat",
-    5: "Mat na",
-    8: "Kinh",
-    9: "Gang tay",
-    10: "Mu bao ho",
-    14: "Giay",
-    15: "Do bao ho",
-    16: "Ao bao ho",
+    0: "Earmuffs",
+    1: "Face",
+    2: "Face mask",
+    3: "Face-guard",
+    4: "Foot",
+    5: "Glasses",
+    6: "Gloves",
+    7: "Hands",
+    8: "Head",
+    9: "Helmet",
+    10: "Medical-suit",
+    11: "Person",
+    12: "Safety vest",
+    13: "Safety-suit",
+    14: "Tools"
 }
 
-REQUIRED_PPE = {"Mu bao ho", "Giay", "Do bao ho", "Ao bao ho", "Gang tay"}
+REQUIRED_PPE = {"Helmet", "Safety-vest", "Gloves"}
 
 # Gửi ảnh Telegram đến nhiều người
 def send_telegram_photo(image_path, caption=""):
